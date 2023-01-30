@@ -59,9 +59,9 @@ class PostsPagesTest(TestCase):
         super().tearDownClass()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
-    def test_index_page_show_correct_context(self): 
+    def test_index_page_show_correct_context(self):
 
-        """Шаблон index сформирован с правильным контекстом.""" 
+        """Шаблон index сформирован с правильным контекстом."""
 
         response = self.authorized_client.get(reverse('posts:index'))
         first_object = response.context['page_obj'][0]
@@ -76,9 +76,9 @@ class PostsPagesTest(TestCase):
 
         """Шаблон group_list сформирован с правильным контекстом."""
 
-        response = self.authorized_client.get( 
+        response = self.authorized_client.get(
             reverse('posts:group_list', kwargs={'slug': self.group.slug})
-        ) 
+        )
         first_object = response.context['page_obj'][0]
         post_author_0 = first_object.author.username
         post_text_0 = first_object.text

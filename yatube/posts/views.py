@@ -181,24 +181,3 @@ def profile_unfollow(request, username):
     author = get_object_or_404(User, username=username)
     Follow.objects.filter(user=user, author=author).delete()
     return redirect('posts:follow_index')
-
-
-# class ProfileFollow(LoginRequiredMixin, generic.RedirectView):
-#     """Подписаться на автора"""
-#     # короче надо функцию как-то прописать для редирект вью
-#     # либо как-то написать просто вью класс что ли
-#     # короче я в жестком ступоре
-#     pattern_name = 'posts:follow_index'
-
-#     def get_queryset(self):
-#         self.follower = get_object_or_404(User, username=self.request.user)
-#         self.author = get_object_or_404(User, username=self.kwargs['username'])
-#         is_follower = Follow.objects.filter(
-#             user=self.follower, author=self.author
-#         )
-#         if self.follower != self.author and not is_follower.exists():
-#             return Follow.objects.create(user=self.follower, author=self.author)
-
-#     def get_redirect_url(self, *args, **kwargs):
-#         return reverse_lazy('posts:follow_index', kwargs={
-#             'username': self.author})
