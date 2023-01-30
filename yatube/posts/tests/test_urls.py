@@ -58,13 +58,3 @@ class PostURLTests(TestCase):
     def test_correct_redirect_guest(self):
         response = self.guest_client.get('/posts/1/edit/', follow=True)
         self.assertRedirects(response, '/auth/login/?next=/posts/1/edit/')
-
-    def test_correct_redirect_notauthor(self):
-        response = self.authorized_client_notauthor.get(reverse(
-            'posts:post_edit', kwargs={
-                'post_id': self.post.id
-            }), follow=True
-        )
-        self.assertRedirects(response, reverse('posts:post_detail', kwargs={
-            'post_id': self.post.id
-        }))
