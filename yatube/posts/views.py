@@ -22,7 +22,6 @@ class GroupPostsView(generic.ListView):
     """Рефакторинг страницы группы"""
     template_name = 'posts/group_list.html'
     paginate_by = POSTS_AMOUNT
-    context_object_name = 'posts'
 
     def get_queryset(self):
         self.group = get_object_or_404(Group, slug=self.kwargs['slug'])
@@ -41,7 +40,6 @@ class UserPostsView(generic.ListView):
 
     def get_queryset(self):
         self.author = get_object_or_404(User, username=self.kwargs['username'])
-        self.user = self.request.user
         return Post.objects.filter(author=self.author)
 
     def get_context_data(self, **kwargs):
@@ -49,9 +47,10 @@ class UserPostsView(generic.ListView):
         posts = self.author.posts.all()
         context['posts_number'] = posts.count()
         context['author'] = self.author
-        context['following'] = Follow.objects.filter(
-            user=self.user, author=self.author
-        )
+        if self.request.user.is_authenticated:
+            context['following'] = Follow.objects.filter(
+                user=self.request.user, author=self.author
+            )
         return context
 
 
