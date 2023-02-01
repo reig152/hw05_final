@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from http import HTTPStatus
 from django.test import TestCase, Client
-from django.urls import reverse
 from posts.models import Post, Group
 
 
